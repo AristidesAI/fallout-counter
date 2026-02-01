@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RobCo Industries Terminal Link</title>
+    <style>
+        /* --- Core Variables & Fonts --- */
+        :root {
+            --pipboy-green: #14f514;
+            --pipboy-glow: #28f32880;
+        }
+
+        /* Using a standard monospace font stack that looks techy */
+        body {
+            font-family: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Console", monospace;
+            background-color: #000;
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            /* The provided monitor image is set as the background here */
+            background-image: url('image_4.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* --- Main Screen Container --- */
+        /* This container is positioned to fit precisely inside the screen area of the image */
+        .monitor-screen {
+            position: relative;
+            /* Adjust these values to perfectly align with the screen in the image */
+            width: 68%;  /* Estimated width of the screen area */
+            height: 58%; /* Estimated height of the screen area */
+            /* The background is transparent to let the image's screen glow through */
+            background-color: transparent;
+            /* Curved corner effect to match the screen bezel */
+            border-radius: 10% / 15%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--pipboy-green);
+            text-transform: uppercase;
+            /* The overall CRT flicker animation */
+            animation: flicker 0.15s infinite;
+            /* Slight inset shadow to enhance the depth effect */
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* --- CRT Screen Effects (Scanlines & Glow) --- */
+        .monitor-screen::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            /* Adds scanlines and a faint color shift effect */
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 2;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+            border-radius: 10% / 15%;
+        }
+
+        .content-wrapper {
+            z-index: 3;
+            text-align: center;
+            /* Green phosphor text glow */
+            text-shadow: 0 0 5px var(--pipboy-glow), 0 0 2px var(--pipboy-green);
+            /* Scaled down to fit the container */
+            transform: scale(0.8);
+        }
+
+        /* --- Typography & Layout --- */
+        h1 {
+            font-size: 1.4rem;
+            letter-spacing: 0.15em;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid var(--pipboy-green);
+            display: inline-block;
+            padding-bottom: 0.5rem;
+        }
+
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            font-size: 2.8rem;
+            font-weight: bold;
+            margin: 2rem 0;
+        }
+
+        .time-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .label {
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            margin-top: 0.5rem;
+        }
+
+        .target-info {
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            line-height: 1.4;
+        }
+
+        /* --- The CSS-Only "Ticking" Illusion --- */
+        /* This hides the overflow so we only see one number at a time */
+        .ticker-window {
+            height: 1em;
+            line-height: 1em;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* This long strip of numbers animates upwards */
+        .ticker-tape {
+            /* 60 steps for 60 seconds */
+            animation: tick-tock 60s steps(60, end) infinite;
+        }
+
+        /* Move the strip up by 1em (100%) every second */
+        @keyframes tick-tock {
+            from { transform: translateY(0); }
+            to { transform: translateY(-6000%); }
+        }
+
+        /* --- Screen Flicker Animation --- */
+        @keyframes flicker {
+            0% { opacity: 0.98; }
+            50% { opacity: 0.95; }
+            100% { opacity: 0.99; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="monitor-screen">
+        <div class="content-wrapper">
+            <h1>ROBCO LINK v8.3 - SYSTEM STANDBY</h1>
+
+            <div class="countdown-container">
+                <div class="time-unit">
+                    <span>000</span>
+                    <span class="label">DAYS</span>
+                </div>
+                <span>:</span>
+                <div class="time-unit">
+                    <span>00</span>
+                    <span class="label">HRS</span>
+                </div>
+                <span>:</span>
+                 <div class="time-unit">
+                    <span>00</span>
+                    <span class="label">MIN</span>
+                </div>
+                <span>:</span>
+                <div class="time-unit">
+                    <div class="ticker-window">
+                        <div class="ticker-tape">
+                            <div>59</div><div>58</div><div>57</div><div>56</div><div>55</div><div>54</div><div>53</div><div>52</div><div>51</div><div>50</div>
+                            <div>49</div><div>48</div><div>47</div><div>46</div><div>45</div><div>44</div><div>43</div><div>42</div><div>41</div><div>40</div>
+                            <div>39</div><div>38</div><div>37</div><div>36</div><div>35</div><div>34</div><div>33</div><div>32</div><div>31</div><div>30</div>
+                            <div>29</div><div>28</div><div>27</div><div>26</div><div>25</div><div>24</div><div>23</div><div>22</div><div>21</div><div>20</div>
+                            <div>19</div><div>18</div><div>17</div><div>16</div><div>15</div><div>14</div><div>13</div><div>12</div><div>11</div><div>10</div>
+                            <div>09</div><div>08</div><div>07</div><div>06</div><div>05</div><div>04</div><div>03</div><div>02</div><div>01</div><div>00</div>
+                        </div>
+                    </div>
+                    <span class="label">SEC</span>
+                </div>
+            </div>
+
+            <div class="target-info">
+                TARGET INITIALIZATION: FEB 3, 2026 - 18:00 PT
+                <br><br>
+                > AWAITING OVERSEER INPUT_
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
